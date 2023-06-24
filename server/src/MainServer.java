@@ -9,10 +9,9 @@ public class MainServer extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("server_form.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 608, 497));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);

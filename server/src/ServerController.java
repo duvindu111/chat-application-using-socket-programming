@@ -11,15 +11,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ServerController implements Initializable {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button btnSendAdmin;
@@ -30,48 +26,97 @@ public class ServerController implements Initializable {
     @FXML
     private TextField sendTxtAreaAdmin;
 
-    String message = "";
-    DataInputStream din;
-    DataOutputStream dout;
+    private ServerSocket serverSocket;
+    private List<ClientHandler> clients;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        new Thread(()->{
+        clients = new ArrayList<>();
+
+        new Thread(() -> {
             try {
-                ServerSocket ss = new ServerSocket(3001);
-                Socket s = ss.accept();
-                din = new DataInputStream(s.getInputStream());
-                dout = new DataOutputStream(s.getOutputStream());
+                serverSocket = new ServerSocket(3001);
 
-                while (!message.equals("finish")) {
-                    message= din.readUTF();
-                    mainTxtAreaAdmin.appendText("\nClient: "+message);
+                while (true) {
+                    Socket clientSocket = serverSocket.accept();
+                    ClientHandler clientHandler = new ClientHandler(clientSocket);
+                    clients.add(clientHandler);
+                    clientHandler.start();
                 }
-
-            } catch (
-                    IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
     }
 
     @FXML
-    void btnSendOnAction(ActionEvent event) throws IOException {
-        String typedText=sendTxtAreaAdmin.getText();
-        dout.writeUTF(typedText);
-        dout.flush();
-        sendTxtAreaAdmin.setText("");
+    void btnSendOnAction(ActionEvent event) {
+        String message = sendTxtAreaAdmin.getText();
+
+        if (!message.isEmpty()) {
+            broadcastMessage("Admin", message);
+            sendTxtAreaAdmin.clear();
+        }
     }
 
-    @FXML
-    void txtFieldServerOnAction(ActionEvent event) throws IOException {
-        btnSendOnAction(event);
+    private void broadcastMessage(String sender, String message) {
+        mainTxtAreaAdmin.appendText(sender + ": " + message + "\n");
+
+        for (ClientHandler client : clients) {
+            client.sendMessage(sender, message);
+        }
     }
 
-    @FXML
-    void initialize() {
-        assert btnSendAdmin != null : "fx:id=\"btnSendAdmin\" was not injected: check your FXML file 'server_form.fxml'.";
-        assert mainTxtAreaAdmin != null : "fx:id=\"mainTxtAreaAdmin\" was not injected: check your FXML file 'server_form.fxml'.";
-        assert sendTxtAreaAdmin != null : "fx:id=\"sendTxtAreaAdmin\" was not injected: check your FXML file 'server_form.fxml'.";
-
+    public void txtFieldServerOnAction(ActionEvent actionEvent) {
     }
+
+
+    ////////////////////////////////////////////////////////////////////////
+    private class ClientHandler extends Thread {
+        private Socket clientSocket;
+        private DataInputStream din;
+        private DataOutputStream dout;
+
+        public ClientHandler(Socket socket) {
+            clientSocket = socket;
+            try {
+                din = new DataInputStream(clientSocket.getInputStream());
+                dout = new DataOutputStream(clientSocket.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void run() {
+            try {
+                String name = din.readUTF();
+                broadcastMessage("System", name + " has joined the chat.");
+
+                while (true) {
+                    String message = din.readUTF();
+                    if (message.equals("finish")) {
+                        break;
+                    }
+                    broadcastMessage(name, message);
+                }
+
+                clients.remove(this);
+                clientSocket.close();
+                broadcastMessage("System", name + " has left the chat.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void sendMessage(String sender, String message) {
+            try {
+                dout.writeUTF(sender + ": " + message);
+                dout.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////
 }

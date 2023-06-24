@@ -15,12 +15,6 @@ import java.util.ResourceBundle;
 public class Client2Controller implements Initializable {
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
     private Button btnSendClient;
 
     @FXML
@@ -29,49 +23,51 @@ public class Client2Controller implements Initializable {
     @FXML
     private TextField sendTxtAreaClient;
 
-    String message = "";
-    DataInputStream din;
-    DataOutputStream dout;
+    private Socket clientSocket;
+    private DataInputStream din;
+    private DataOutputStream dout;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        new Thread(() -> {
-            try {
-                Socket s = new Socket("localhost", 3001);
-                din = new DataInputStream(s.getInputStream());
-                dout = new DataOutputStream(s.getOutputStream());
+        try {
+            clientSocket = new Socket("localhost", 3001);
+            din = new DataInputStream(clientSocket.getInputStream());
+            dout = new DataOutputStream(clientSocket.getOutputStream());
 
+            String name = "Client 2";
+            dout.writeUTF(name);
+            dout.flush();
 
-                while (!message.equals("finish")) {
-                    message = din.readUTF();
-                    mainTxtAreaClient.appendText("\nServer: " + message);
+            new Thread(() -> {
+                try {
+                    while (true) {
+                        String message = din.readUTF();
+                        mainTxtAreaClient.appendText(message + "\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            }).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @FXML
+    void btnSendOnAction(ActionEvent event) {
+        String message = sendTxtAreaClient.getText();
+
+        if (!message.isEmpty()) {
+            try {
+                dout.writeUTF(message);
+                dout.flush();
+                sendTxtAreaClient.clear();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }).start();
+        }
     }
 
-    @FXML
-    void btnSendOnAction(ActionEvent event) throws IOException {
-        String typedText = sendTxtAreaClient.getText();
-        dout.writeUTF(typedText);
-        dout.flush();
-        sendTxtAreaClient.setText("");
-        mainTxtAreaClient.appendText("\nClient 1: " + typedText);
-    }
-
-    @FXML
-    void txtFieldClientOnAction(ActionEvent event) throws IOException {
-        btnSendOnAction(event);
-    }
-
-    @FXML
-    void initialize() {
-        assert btnSendClient != null : "fx:id=\"btnSendClient\" was not injected: check your FXML file 'client2_form.fxml'.";
-        assert mainTxtAreaClient != null : "fx:id=\"mainTxtAreaClient\" was not injected: check your FXML file 'client2_form.fxml'.";
-        assert sendTxtAreaClient != null : "fx:id=\"sendTxtAreaClient\" was not injected: check your FXML file 'client2_form.fxml'.";
-
+    public void txtFieldClientOnAction(ActionEvent actionEvent) {
     }
 }
-
