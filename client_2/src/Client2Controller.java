@@ -15,9 +15,6 @@ import java.util.ResourceBundle;
 public class Client2Controller implements Initializable {
 
     @FXML
-    private Button btnSendClient;
-
-    @FXML
     private TextArea mainTxtAreaClient;
 
     @FXML

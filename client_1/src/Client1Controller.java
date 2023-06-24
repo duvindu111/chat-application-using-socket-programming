@@ -56,6 +56,7 @@ public class Client1Controller implements Initializable {
 
         if (!message.isEmpty()) {
             try {
+                mainTxtAreaClient.appendText("You: "+ message + "\n");
                 dout.writeUTF(message);
                 dout.flush();
                 sendTxtAreaClient.clear();
