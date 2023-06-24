@@ -69,5 +69,6 @@ public class Client2Controller implements Initializable {
     }
 
     public void txtFieldClientOnAction(ActionEvent actionEvent) {
+        btnSendOnAction(actionEvent);
     }
 }

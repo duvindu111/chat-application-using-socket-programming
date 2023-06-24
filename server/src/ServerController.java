@@ -1,7 +1,6 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -16,9 +15,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ServerController implements Initializable {
-
-    @FXML
-    private Button btnSendAdmin;
 
     @FXML
     private TextArea mainTxtAreaAdmin;
@@ -38,7 +34,9 @@ public class ServerController implements Initializable {
                 serverSocket = new ServerSocket(3001);
 
                 while (true) {
+                    System.out.println("before accept");
                     Socket clientSocket = serverSocket.accept();
+                    System.out.println("after accept");
                     ClientHandler clientHandler = new ClientHandler(clientSocket);
                     clients.add(clientHandler);
                     clientHandler.start();
@@ -54,12 +52,17 @@ public class ServerController implements Initializable {
         String message = sendTxtAreaAdmin.getText();
 
         if (!message.isEmpty()) {
-            broadcastMessage("Admin", message);
+            broadcastMessagebyAdmin("Admin", message);
             sendTxtAreaAdmin.clear();
         }
     }
 
-    private void broadcastMessage(String sender, String message) {
+    public void txtFieldServerOnAction(ActionEvent actionEvent) {
+        btnSendOnAction(actionEvent);
+    }
+
+
+    private void broadcastMessagebyAdmin(String sender, String message) {
         mainTxtAreaAdmin.appendText(sender + ": " + message + "\n");
 
         for (ClientHandler client : clients) {
@@ -67,9 +70,15 @@ public class ServerController implements Initializable {
         }
     }
 
-    public void txtFieldServerOnAction(ActionEvent actionEvent) {
-    }
+    private void broadcastMessagebyClients(String sender, String message, Socket socket) {
+        mainTxtAreaAdmin.appendText(sender + ": " + message + "\n");
 
+        for (ClientHandler client : clients) {
+            if(client.clientSocket!=socket) {
+                client.sendMessage(sender, message);
+            }
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////
     private class ClientHandler extends Thread {
@@ -91,19 +100,20 @@ public class ServerController implements Initializable {
         public void run() {
             try {
                 String name = din.readUTF();
-                broadcastMessage("System", name + " has joined the chat.");
+                broadcastMessagebyClients("System", name + " has joined the chat.",clientSocket);
 
                 while (true) {
                     String message = din.readUTF();
+                    System.out.println("message by: "+ clientSocket);
                     if (message.equals("finish")) {
                         break;
                     }
-                    broadcastMessage(name, message);
+                    broadcastMessagebyClients(name, message,clientSocket);
                 }
 
                 clients.remove(this);
                 clientSocket.close();
-                broadcastMessage("System", name + " has left the chat.");
+                broadcastMessagebyClients("System", name + " has left the chat.",clientSocket);
             } catch (IOException e) {
                 e.printStackTrace();
             }

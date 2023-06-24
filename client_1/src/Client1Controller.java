@@ -15,9 +15,6 @@ import java.util.ResourceBundle;
 public class Client1Controller implements Initializable {
 
     @FXML
-    private Button btnSendClient;
-
-    @FXML
     private TextArea mainTxtAreaClient;
 
     @FXML
@@ -69,5 +66,6 @@ public class Client1Controller implements Initializable {
     }
 
     public void txtFieldClientOnAction(ActionEvent actionEvent) {
+        btnSendOnAction(actionEvent);
     }
 }
