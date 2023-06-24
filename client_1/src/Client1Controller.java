@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
