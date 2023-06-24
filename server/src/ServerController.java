@@ -34,9 +34,7 @@ public class ServerController implements Initializable {
                 serverSocket = new ServerSocket(3001);
 
                 while (true) {
-                    System.out.println("before accept");
                     Socket clientSocket = serverSocket.accept();
-                    System.out.println("after accept");
                     ClientHandler clientHandler = new ClientHandler(clientSocket);
                     clients.add(clientHandler);
                     clientHandler.start();
@@ -104,7 +102,7 @@ public class ServerController implements Initializable {
 
                 while (true) {
                     String message = din.readUTF();
-                    System.out.println("message by: "+ clientSocket);
+                    //System.out.println("message by: "+ clientSocket);
                     if (message.equals("finish")) {
                         break;
                     }

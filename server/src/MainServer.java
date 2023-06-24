@@ -8,7 +8,7 @@ public class MainServer extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("server_form.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Server");
         primaryStage.setScene(new Scene(root, 608, 497));
         primaryStage.show();
     }

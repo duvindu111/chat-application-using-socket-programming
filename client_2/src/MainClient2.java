@@ -9,11 +9,10 @@ public class MainClient2 extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("client2_form.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Client");
         primaryStage.setScene(new Scene(root, 608, 497));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);

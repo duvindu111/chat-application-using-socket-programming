@@ -1,6 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,10 +16,25 @@ import java.util.ResourceBundle;
 public class Client1Controller implements Initializable {
 
     @FXML
+    private Button btnJoin;
+
+    @FXML
+    private Button btnSendClient;
+
+    @FXML
+    private Group grpEnterName;
+
+    @FXML
+    private Group grpMessageArea;
+
+    @FXML
     private TextArea mainTxtAreaClient;
 
     @FXML
     private TextField sendTxtAreaClient;
+
+    @FXML
+    private TextField txtUsername;
 
     private Socket clientSocket;
     private DataInputStream din;
@@ -30,10 +46,6 @@ public class Client1Controller implements Initializable {
             clientSocket = new Socket("localhost", 3001);
             din = new DataInputStream(clientSocket.getInputStream());
             dout = new DataOutputStream(clientSocket.getOutputStream());
-
-            String name = "Client 1";
-            dout.writeUTF(name);
-            dout.flush();
 
             new Thread(() -> {
                 try {
@@ -68,5 +80,21 @@ public class Client1Controller implements Initializable {
 
     public void txtFieldClientOnAction(ActionEvent actionEvent) {
         btnSendOnAction(actionEvent);
+    }
+
+    public void txtUsernameOnAction(ActionEvent actionEvent) throws IOException {
+        btnJoinOnAction(actionEvent);
+    }
+
+    String username;
+    public void btnJoinOnAction(ActionEvent actionEvent) throws IOException {
+        username = txtUsername.getText();
+
+        if (!username.isEmpty()) {
+            grpEnterName.setVisible(false);
+            grpMessageArea.setVisible(true);
+            dout.writeUTF(username);
+            dout.flush();
+        }
     }
 }
