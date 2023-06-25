@@ -1,16 +1,27 @@
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class Client2Controller implements Initializable {
@@ -34,7 +45,16 @@ public class Client2Controller implements Initializable {
     private TextField sendTxtAreaClient;
 
     @FXML
+    private Text lblName;
+
+    @FXML
     private TextField txtUsername;
+
+    @FXML
+    private ImageView icnCamera;
+
+    @FXML
+    private VBox mainVbox;
 
     private Socket clientSocket;
     private DataInputStream din;
@@ -43,7 +63,7 @@ public class Client2Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            clientSocket = new Socket("localhost", 3001);
+            clientSocket = new Socket("localhost", 3002);
             din = new DataInputStream(clientSocket.getInputStream());
             dout = new DataOutputStream(clientSocket.getOutputStream());
 
@@ -51,7 +71,11 @@ public class Client2Controller implements Initializable {
                 try {
                     while (true) {
                         String message = din.readUTF();
-                        mainTxtAreaClient.appendText(message + "\n");
+                        Label label = new Label(message);
+
+                        Platform.runLater(() -> {
+                            mainVbox.getChildren().add(label);
+                        });
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -68,6 +92,10 @@ public class Client2Controller implements Initializable {
 
         if (!message.isEmpty()) {
             try {
+                Label label = new Label("You: " + message + "\n");
+                Platform.runLater(() -> {
+                    mainVbox.getChildren().add(label);
+                });
                 dout.writeUTF(message);
                 dout.flush();
                 sendTxtAreaClient.clear();
@@ -86,14 +114,33 @@ public class Client2Controller implements Initializable {
     }
 
     String username;
+
     public void btnJoinOnAction(ActionEvent actionEvent) throws IOException {
         username = txtUsername.getText();
 
         if (!username.isEmpty()) {
             grpEnterName.setVisible(false);
             grpMessageArea.setVisible(true);
+            lblName.setText(username);
             dout.writeUTF(username);
             dout.flush();
+        }
+    }
+
+    String imagePath;
+    public void icnCameraOnMouseClicked(MouseEvent mouseEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Image File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        Stage stage = (Stage) icnCamera.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            imagePath = selectedFile.getAbsolutePath();
+            System.out.println("Selected image path: " + imagePath);
         }
     }
 }

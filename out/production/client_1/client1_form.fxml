@@ -5,10 +5,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -22,19 +25,25 @@
    <children>
       <AnchorPane prefHeight="465.0" prefWidth="559.0">
          <children>
-            <Group fx:id="grpMessageArea" layoutX="8.0" layoutY="13.8798828125" visible="false">
+            <Group fx:id="grpMessageArea" layoutX="8.0" layoutY="13.8798828125">
                <children>
                   <TextArea fx:id="mainTxtAreaClient" editable="false" focusTraversable="false" layoutX="30.0" layoutY="64.1201171875" prefHeight="299.0" prefWidth="481.0" />
                   <Button fx:id="btnSendClient" focusTraversable="false" layoutX="445.0" layoutY="377.1201171875" mnemonicParsing="false" onAction="#btnSendOnAction" prefHeight="54.0" prefWidth="67.0" text="Send" />
-                  <Text layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client 1" textAlignment="CENTER" wrappingWidth="542.4000244140625">
+                  <Text fx:id="lblName" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client 1" textAlignment="CENTER" wrappingWidth="542.4000244140625">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="35.0" />
                      </font>
                   </Text>
                   <TextField fx:id="sendTxtAreaClient" layoutX="30.0" layoutY="377.1201171875" onAction="#txtFieldClientOnAction" prefHeight="54.0" prefWidth="403.0" />
+                  <ImageView fx:id="icnCamera" fitHeight="41.0" fitWidth="58.0" layoutX="377.0" layoutY="384.0" onMouseClicked="#icnCameraOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/images/camera1.png" />
+                     </image>
+                  </ImageView>
+                  <VBox fx:id="mainVbox" layoutX="39.0" layoutY="64.0" prefHeight="300.0" prefWidth="472.0" />
                </children>
             </Group>
-            <Group fx:id="grpEnterName" layoutY="107.0">
+            <Group fx:id="grpEnterName" layoutY="107.0" visible="false">
                <children>
                   <Label alignment="CENTER" layoutX="1.0" layoutY="47.0" prefHeight="54.0" prefWidth="559.0" text="to JOIN the chat" textAlignment="CENTER">
                      <font>
