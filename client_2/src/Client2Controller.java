@@ -9,7 +9,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -21,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class Client2Controller implements Initializable {
@@ -71,8 +69,8 @@ public class Client2Controller implements Initializable {
                 try {
                     while (true) {
                         String message = din.readUTF();
-                        Label label = new Label(message);
 
+                        Label label = new Label(message);
                         Platform.runLater(() -> {
                             mainVbox.getChildren().add(label);
                         });
@@ -129,7 +127,7 @@ public class Client2Controller implements Initializable {
 
     String imagePath;
     public void icnCameraOnMouseClicked(MouseEvent mouseEvent) {
-        FileChooser fileChooser = new FileChooser();
+       /* FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
@@ -141,6 +139,6 @@ public class Client2Controller implements Initializable {
         if (selectedFile != null) {
             imagePath = selectedFile.getAbsolutePath();
             System.out.println("Selected image path: " + imagePath);
-        }
+        }*/
     }
 }

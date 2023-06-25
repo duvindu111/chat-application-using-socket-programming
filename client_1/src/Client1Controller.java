@@ -114,7 +114,6 @@ public class Client1Controller implements Initializable {
     }
 
     String username;
-
     public void btnJoinOnAction(ActionEvent actionEvent) throws IOException {
         username = txtUsername.getText();
 
@@ -128,9 +127,8 @@ public class Client1Controller implements Initializable {
     }
 
     String imagePath;
-
     public void icnCameraOnMouseClicked(MouseEvent mouseEvent) {
-        FileChooser fileChooser = new FileChooser();
+        /*FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
@@ -142,7 +140,7 @@ public class Client1Controller implements Initializable {
         if (selectedFile != null) {
             imagePath = selectedFile.getAbsolutePath();
             System.out.println("Selected image path: " + imagePath);
-        }
+        }*/
     }
 
 }

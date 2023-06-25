@@ -78,11 +78,11 @@ public class ServerController implements Initializable {
         }
     }
 
-    private void broadcastImagesbyClients(String sender,Socket socket, byte[] imageData, int imageWidth, int imageHeight) {
+    private void broadcastImagesbyClients(String sender, Socket socket, byte[] imageData, int imageWidth, int imageHeight) {
 
         for (ClientHandler client : clients) {
             if (client.clientSocket != socket) {
-                client.sendMessage(sender,imageData, imageWidth, imageHeight);
+                client.sendMessage(sender, imageData, imageWidth, imageHeight);
             }
         }
     }
@@ -111,21 +111,11 @@ public class ServerController implements Initializable {
 
                 while (true) {
                     String message = din.readUTF();
-                    //System.out.println("message by: "+ clientSocket);
                     if (message.equals("finish")) {
                         break;
-                    } else if (message.equals("IMAGE")) {
-                        // Read the image dimensions and data
-                        int imageWidth = din.readInt();
-                        int imageHeight = din.readInt();
-                        int imageDataLength = din.readInt();
-                        byte[] imageData = new byte[imageDataLength];
-                        din.readFully(imageData);
-
-                        broadcastImagesbyClients(name, clientSocket, imageData, imageWidth, imageHeight);
-                    } else {
-                        broadcastMessagebyClients(name, message, clientSocket);
                     }
+
+                    broadcastMessagebyClients(name, message, clientSocket);
                 }
 
                 clients.remove(this);
@@ -145,7 +135,7 @@ public class ServerController implements Initializable {
             }
         }
 
-        public void sendMessage(String sender , byte[] imageData, int imageWidth, int imageHeight) {
+        public void sendMessage(String sender, byte[] imageData, int imageWidth, int imageHeight) {
             try {
                 if (imageData != null) {
                     // Send a flag indicating that an image is being sent

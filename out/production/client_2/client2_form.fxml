@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -25,9 +26,8 @@
    <children>
       <AnchorPane prefHeight="465.0" prefWidth="559.0">
          <children>
-            <Group fx:id="grpMessageArea" layoutX="8.0" layoutY="13.8798828125" visible="false">
+            <Group fx:id="grpMessageArea" layoutX="8.0" layoutY="13.8798828125">
                <children>
-                  <TextArea fx:id="mainTxtAreaClient" editable="false" focusTraversable="false" layoutX="30.0" layoutY="64.1201171875" prefHeight="299.0" prefWidth="481.0" />
                   <Button fx:id="btnSendClient" focusTraversable="false" layoutX="445.0" layoutY="377.1201171875" mnemonicParsing="false" onAction="#btnSendOnAction" prefHeight="54.0" prefWidth="67.0" text="Send" />
                   <Text fx:id="lblName" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client 2" textAlignment="CENTER" wrappingWidth="542.4000244140625">
                      <font>
@@ -40,12 +40,20 @@
                         <Image url="@assets/images/camera.png" />
                      </image>
                   </ImageView>
-                  <VBox fx:id="mainVbox" layoutX="30.0" layoutY="64.0" prefHeight="299.0" prefWidth="482.0" />
+                  <ScrollPane layoutX="30.0" layoutY="48.0" prefHeight="308.0" prefWidth="481.0">
+                     <content>
+                        <VBox fx:id="mainVbox" nodeOrientation="LEFT_TO_RIGHT" prefHeight="310.0" prefWidth="468.0">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
                </children>
             </Group>
          </children>
       </AnchorPane>
-      <Group fx:id="grpEnterName">
+      <Group fx:id="grpEnterName" visible="false">
          <children>
             <Label alignment="CENTER" layoutX="1.0" layoutY="47.0" prefHeight="54.0" prefWidth="559.0" text="to JOIN the chat" textAlignment="CENTER">
                <font>
