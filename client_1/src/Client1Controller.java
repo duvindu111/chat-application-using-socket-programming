@@ -2,6 +2,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 
@@ -68,6 +68,8 @@ public class Client1Controller implements Initializable {
             din = new DataInputStream(clientSocket.getInputStream());
             dout = new DataOutputStream(clientSocket.getOutputStream());
 
+            mainVbox.setPadding(new Insets(20));
+
             new Thread(() -> {
                 try {
                     while (true) {
@@ -75,13 +77,15 @@ public class Client1Controller implements Initializable {
 
                         if (message.startsWith("image")) {
                             String sender = din.readUTF();
-                            Label senderLabel = new Label(sender+": ");
+                            Label senderLabel = new Label(sender + ": ");
                             String path = din.readUTF();
                             System.out.println(path);
 
                             ImageView imageView = new ImageView(new Image("file:" + path));
-                            imageView.setFitWidth(256);
-                            imageView.setFitHeight(256);
+                            imageView.setFitWidth(192);
+                            imageView.setPreserveRatio(true);
+//                            imageView.setFitWidth(256);
+//                            imageView.setFitHeight(256);
                             Platform.runLater(() -> {
                                 mainVbox.getChildren().add(senderLabel);
                             });
@@ -133,6 +137,7 @@ public class Client1Controller implements Initializable {
     }
 
     String username;
+
     public void btnJoinOnAction(ActionEvent actionEvent) throws IOException {
         username = txtUsername.getText();
 
@@ -146,6 +151,7 @@ public class Client1Controller implements Initializable {
     }
 
     String imagePath;
+
     public void icnCameraOnMouseClicked(MouseEvent mouseEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image File");
@@ -163,6 +169,19 @@ public class Client1Controller implements Initializable {
             dout.writeUTF(username);
             dout.writeUTF(imagePath);
             dout.flush();
+
+            ImageView imageView = new ImageView(new Image("file:" + imagePath));
+            imageView.setFitWidth(192);
+            imageView.setPreserveRatio(true);
+//            imageView.setFitWidth(256);
+//            imageView.setFitHeight(256);
+            Label label = new Label("you: ");
+            Platform.runLater(() -> {
+                mainVbox.getChildren().add(label);
+            });
+            Platform.runLater(() -> {
+                mainVbox.getChildren().add(imageView);
+            });
         }
     }
 

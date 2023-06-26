@@ -79,6 +79,8 @@ public class ServerController implements Initializable {
     }
 
     private void broadcastImagesbyClients(String username, String path,Socket socket) {
+        mainTxtAreaAdmin.appendText(username + " sent an image\n");
+
         for (ClientHandler client : clients) {
             if (client.clientSocket != socket) {
                 client.sendImage(username, path);
