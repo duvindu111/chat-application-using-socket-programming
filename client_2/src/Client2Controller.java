@@ -73,12 +73,13 @@ public class Client2Controller implements Initializable {
 
                         if (message.startsWith("image")) {
                                 String sender = din.readUTF();
-                                Label senderLabel = new Label(sender);
+                                Label senderLabel = new Label(sender+": ");
                                 String path = din.readUTF();
                             System.out.println(path);
 
                             ImageView imageView = new ImageView(new Image("file:" + path));
-
+                            imageView.setFitWidth(256);
+                            imageView.setFitHeight(256);
                             Platform.runLater(() -> {
                                 mainVbox.getChildren().add(senderLabel);
                             });
