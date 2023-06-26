@@ -27,6 +27,7 @@ public class ServerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         clients = new ArrayList<>();
 
         new Thread(() -> {

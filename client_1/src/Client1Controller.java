@@ -11,7 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -57,6 +59,9 @@ public class Client1Controller implements Initializable {
     @FXML
     private VBox mainVbox;
 
+    @FXML
+    private FlowPane emojiContainer;
+
     private Socket clientSocket;
     private DataInputStream din;
     private DataOutputStream dout;
@@ -69,6 +74,11 @@ public class Client1Controller implements Initializable {
             dout = new DataOutputStream(clientSocket.getOutputStream());
 
             mainVbox.setPadding(new Insets(20));
+            emojiContainer.setVisible(false);
+            emojiContainer.setPadding(new Insets(10));
+            emojiContainer.setHgap(20);
+            emojiContainer.setVgap(20);
+
 
             new Thread(() -> {
                 try {
@@ -106,6 +116,47 @@ public class Client1Controller implements Initializable {
             }).start();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void emoIconOnAction(MouseEvent mouseEvent) {
+        if (emojiContainer.isVisible()) {
+            emojiContainer.setVisible(false);
+        } else {
+            emojiContainer.setVisible(true);
+            displayEmojis();
+        }
+    }
+
+    private void displayEmojis() {
+        emojiContainer.getChildren().clear();
+
+        // Create a button for each emoji
+        String[] emojis = {
+                "\uD83D\uDE00", // Grinning Face
+                "\uD83D\uDE0D", // Smiling Face with Heart-Eyes
+                "\uD83D\uDE01", // Grinning Face with Smiling Eyes
+                "\uD83D\uDE2D", // Loudly Crying Face
+                "\uD83D\uDE10" // Neutral Face
+        };
+
+        for (String emoji : emojis) {
+            Label emojiButton = new Label();
+            //emojiButton.setPrefSize(50, 50);
+            emojiButton.setFont(Font.font("", 30));
+            emojiButton.setText(emoji);
+            emojiButton.setStyle("-fx-text-fill: #000000; -fx-border-radius: 25 ");
+            emojiButton.setOnMouseClicked(event -> {
+                String unicode = emoji;
+                System.out.println("Unicode: " + unicode);
+                sendTxtAreaClient.appendText(emoji);
+            });
+//            emojiButton.setOnAction(event -> {
+//                // Retrieve the Unicode value
+//                String unicode = emoji;
+//                System.out.println("Unicode: " + unicode);
+//            });
+            emojiContainer.getChildren().add(emojiButton);
         }
     }
 
@@ -184,5 +235,6 @@ public class Client1Controller implements Initializable {
             });
         }
     }
+
 
 }
