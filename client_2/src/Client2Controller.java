@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -70,10 +71,28 @@ public class Client2Controller implements Initializable {
                     while (true) {
                         String message = din.readUTF();
 
-                        Label label = new Label(message);
-                        Platform.runLater(() -> {
-                            mainVbox.getChildren().add(label);
-                        });
+                        if (message.startsWith("image")) {
+                                String sender = din.readUTF();
+                                Label senderLabel = new Label(sender);
+                                String path = din.readUTF();
+                            System.out.println(path);
+
+                            ImageView imageView = new ImageView(new Image("file:" + path));
+
+                            Platform.runLater(() -> {
+                                mainVbox.getChildren().add(senderLabel);
+                            });
+                            Platform.runLater(() -> {
+                                mainVbox.getChildren().add(imageView);
+                            });
+
+                        } else {
+                            Label label = new Label(message);
+                            Platform.runLater(() -> {
+                                mainVbox.getChildren().add(label);
+                            });
+                        }
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

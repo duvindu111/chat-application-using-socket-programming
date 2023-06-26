@@ -78,11 +78,10 @@ public class ServerController implements Initializable {
         }
     }
 
-    private void broadcastImagesbyClients(String sender, Socket socket, byte[] imageData, int imageWidth, int imageHeight) {
-
+    private void broadcastImagesbyClients(String username, String path,Socket socket) {
         for (ClientHandler client : clients) {
             if (client.clientSocket != socket) {
-                client.sendMessage(sender, imageData, imageWidth, imageHeight);
+                client.sendImage(username, path);
             }
         }
     }
@@ -113,9 +112,14 @@ public class ServerController implements Initializable {
                     String message = din.readUTF();
                     if (message.equals("finish")) {
                         break;
+                    } else if (message.startsWith("image")) {
+                        String username = din.readUTF();
+                        String path = din.readUTF();
+                        System.out.println(path);
+                        broadcastImagesbyClients(username, path, clientSocket);
+                    } else {
+                        broadcastMessagebyClients(name, message, clientSocket);
                     }
-
-                    broadcastMessagebyClients(name, message, clientSocket);
                 }
 
                 clients.remove(this);
@@ -135,23 +139,18 @@ public class ServerController implements Initializable {
             }
         }
 
-        public void sendMessage(String sender, byte[] imageData, int imageWidth, int imageHeight) {
+        public void sendImage(String username, String path) {
             try {
-                if (imageData != null) {
-                    // Send a flag indicating that an image is being sent
-                    dout.writeUTF("IMAGE");
-
-                    // Send the image dimensions and data
-                    dout.writeInt(imageWidth);
-                    dout.writeInt(imageHeight);
-                    dout.writeInt(imageData.length);
-                    dout.write(imageData);
-                    dout.flush();
-                }
+                dout.writeUTF("image");
+                dout.writeUTF(username);
+                dout.writeUTF(path);
+                dout.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+
     }
     ////////////////////////////////////////////////////////////////////////
 }
