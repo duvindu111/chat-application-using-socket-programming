@@ -4,10 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,7 +21,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
+
+import com.vdurmont.emoji.EmojiManager;
+import com.vdurmont.emoji.EmojiParser;
+import com.vdurmont.emoji.Emoji;
+import org.json.JSONArray;
 
 public class Client2Controller implements Initializable {
 
@@ -61,6 +65,9 @@ public class Client2Controller implements Initializable {
     @FXML
     private FlowPane emojiContainer;
 
+    @FXML
+    private ScrollPane spaneForFlowPane;
+
     private Socket clientSocket;
     private DataInputStream din;
     private DataOutputStream dout;
@@ -74,9 +81,11 @@ public class Client2Controller implements Initializable {
 
             mainVbox.setPadding(new Insets(20));
             emojiContainer.setVisible(false);
+            spaneForFlowPane.setVisible(false);
             emojiContainer.setPadding(new Insets(10));
             emojiContainer.setHgap(20);
             emojiContainer.setVgap(20);
+            displayEmojis();
 
             new Thread(() -> {
                 try {
@@ -121,9 +130,10 @@ public class Client2Controller implements Initializable {
     public void emoIconOnAction(MouseEvent mouseEvent) {
         if (emojiContainer.isVisible()) {
             emojiContainer.setVisible(false);
+            spaneForFlowPane.setVisible(false);
         } else {
             emojiContainer.setVisible(true);
-            displayEmojis();
+            spaneForFlowPane.setVisible(true);
         }
     }
 
@@ -140,22 +150,17 @@ public class Client2Controller implements Initializable {
         };
 
         for (String emoji : emojis) {
-            Label emojiButton = new Label();
-            //emojiButton.setPrefSize(50, 50);
-            emojiButton.setFont(Font.font("", 30));
-            emojiButton.setText(emoji);
-            emojiButton.setStyle("-fx-text-fill: #000000; -fx-border-radius: 25 ");
-            emojiButton.setOnMouseClicked(event -> {
+            Label emojiLabel = new Label();
+            //emojiLabel.setPrefSize(50, 50);
+            emojiLabel.getStyleClass().add("emoji-button");
+            emojiLabel.setText(emoji);
+            emojiLabel.setStyle("-fx-font-size: 30");
+            emojiLabel.setOnMouseClicked(event -> {
                 String unicode = emoji;
                 System.out.println("Unicode: " + unicode);
                 sendTxtAreaClient.appendText(emoji);
             });
-//            emojiButton.setOnAction(event -> {
-//                // Retrieve the Unicode value
-//                String unicode = emoji;
-//                System.out.println("Unicode: " + unicode);
-//            });
-            emojiContainer.getChildren().add(emojiButton);
+            emojiContainer.getChildren().add(emojiLabel);
         }
     }
 
@@ -176,6 +181,8 @@ public class Client2Controller implements Initializable {
                 e.printStackTrace();
             }
         }
+        emojiContainer.setVisible(false);
+        spaneForFlowPane.setVisible(false);
     }
 
     public void txtFieldClientOnAction(ActionEvent actionEvent) {
