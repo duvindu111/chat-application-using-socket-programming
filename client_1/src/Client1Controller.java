@@ -3,12 +3,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -160,6 +162,8 @@ public class Client1Controller implements Initializable {
                 String unicode = emoji;
                 System.out.println("Unicode: " + unicode);
                 sendTxtAreaClient.appendText(emoji);
+                sendTxtAreaClient.requestFocus();
+                sendTxtAreaClient.positionCaret(sendTxtAreaClient.getText().length());
             });
             emojiContainer.getChildren().add(emojiLabel);
         }
@@ -171,9 +175,16 @@ public class Client1Controller implements Initializable {
 
         if (!message.isEmpty()) {
             try {
-                Label label = new Label("You: " + message + "\n");
+                //Label label = new Label("You: " + message + "\n");
                 Platform.runLater(() -> {
-                    mainVbox.getChildren().add(label);
+                    //mainVbox.getChildren().add(label);
+
+                    // Create an HBox for right-aligned content
+                    HBox hbox = new HBox();
+                    hbox.setAlignment(Pos.BASELINE_RIGHT);
+                    Label label = new Label(message + "\n");
+                    hbox.getChildren().add(label);
+                    mainVbox.getChildren().add(hbox);
                 });
                 dout.writeUTF(message);
                 dout.flush();
@@ -231,14 +242,12 @@ public class Client1Controller implements Initializable {
             ImageView imageView = new ImageView(new Image("file:" + imagePath));
             imageView.setFitWidth(192);
             imageView.setPreserveRatio(true);
-//            imageView.setFitWidth(256);
-//            imageView.setFitHeight(256);
-            Label label = new Label("you: ");
             Platform.runLater(() -> {
-                mainVbox.getChildren().add(label);
-            });
-            Platform.runLater(() -> {
-                mainVbox.getChildren().add(imageView);
+                //mainVbox.getChildren().add(imageView);
+                HBox hbox = new HBox();
+                hbox.setAlignment(Pos.BASELINE_RIGHT);
+                hbox.getChildren().add(imageView);
+                mainVbox.getChildren().add(hbox);
             });
         }
     }
