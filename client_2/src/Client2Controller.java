@@ -25,6 +25,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.vdurmont.emoji.EmojiManager;
@@ -125,8 +126,32 @@ public class Client2Controller implements Initializable {
                 }
             }).start();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
+
+        Platform.runLater(() -> {
+            Stage stage = (Stage) mainVbox.getScene().getWindow();
+            stage.setOnCloseRequest(event -> {
+                event.consume(); // Consume the event to prevent the default close operation
+
+                // Display a confirmation dialog
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Leave the Chat");
+                alert.setHeaderText("Are you sure you want to leave the chat?");
+                alert.setContentText("Your data will be lost if you leave the chat application now");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        dout.writeUTF("pass-qpactk3i5710-xkdwisq@ee358fyndvndla98r478t35-jvvhjfv94r82@");
+                        dout.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    stage.close(); // Close the window
+                }
+            });
+        });
     }
 
     public void emoIconOnAction(MouseEvent mouseEvent) {

@@ -1,39 +1,40 @@
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.vdurmont.emoji.EmojiManager;
 import com.vdurmont.emoji.EmojiParser;
 import com.vdurmont.emoji.Emoji;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import org.json.JSONArray;
 
 
-public class Client1Controller implements Initializable {
+public class Client1Controller implements Initializable  {
 
     @FXML
     private Button btnJoin;
@@ -71,6 +72,9 @@ public class Client1Controller implements Initializable {
     @FXML
     private ScrollPane spaneForFlowPane;
 
+    @FXML
+    private ScrollPane sPaneVbox;
+
     private Socket clientSocket;
     private DataInputStream din;
     private DataOutputStream dout;
@@ -89,7 +93,6 @@ public class Client1Controller implements Initializable {
             emojiContainer.setHgap(20);
             emojiContainer.setVgap(20);
             displayEmojis();
-
 
             new Thread(() -> {
                 try {
@@ -126,8 +129,32 @@ public class Client1Controller implements Initializable {
                 }
             }).start();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
+
+        Platform.runLater(() -> {
+            Stage stage = (Stage) mainVbox.getScene().getWindow();
+            stage.setOnCloseRequest(event -> {
+                event.consume(); // Consume the event to prevent the default close operation
+
+                // Display a confirmation dialog
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Leave the Chat");
+                alert.setHeaderText("Are you sure you want to leave the chat?");
+                alert.setContentText("Your data will be lost if you leave the chat application now");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        dout.writeUTF("pass-qpactk3i5710-xkdwisq@ee358fyndvndla98r478t35-jvvhjfv94r82@");
+                        dout.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    stage.close(); // Close the window
+                }
+            });
+        });
     }
 
     public void emoIconOnAction(MouseEvent mouseEvent) {
@@ -175,9 +202,7 @@ public class Client1Controller implements Initializable {
 
         if (!message.isEmpty()) {
             try {
-                //Label label = new Label("You: " + message + "\n");
                 Platform.runLater(() -> {
-                    //mainVbox.getChildren().add(label);
 
                     // Create an HBox for right-aligned content
                     HBox hbox = new HBox();
@@ -251,6 +276,4 @@ public class Client1Controller implements Initializable {
             });
         }
     }
-
-
 }

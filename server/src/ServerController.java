@@ -38,6 +38,7 @@ public class ServerController implements Initializable {
                     Socket clientSocket = serverSocket.accept();
                     ClientHandler clientHandler = new ClientHandler(clientSocket);
                     clients.add(clientHandler);
+                    System.out.println(clients);
                     clientHandler.start();
                 }
             } catch (IOException e) {
@@ -113,12 +114,11 @@ public class ServerController implements Initializable {
 
                 while (true) {
                     String message = din.readUTF();
-                    if (message.equals("finish")) {
+                    if (message.equals("pass-qpactk3i5710-xkdwisq@ee358fyndvndla98r478t35-jvvhjfv94r82@")) {
                         break;
                     } else if (message.startsWith("image")) {
                         String username = din.readUTF();
                         String path = din.readUTF();
-                        System.out.println(path);
                         broadcastImagesbyClients(username, path, clientSocket);
                     } else {
                         broadcastMessagebyClients(name, message, clientSocket);
@@ -126,6 +126,7 @@ public class ServerController implements Initializable {
                 }
 
                 clients.remove(this);
+                System.out.println(clients);
                 clientSocket.close();
                 broadcastMessagebyClients("System", name + " has left the chat.", clientSocket);
             } catch (IOException e) {
