@@ -1,8 +1,14 @@
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,6 +18,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ServerController implements Initializable {
@@ -45,6 +52,24 @@ public class ServerController implements Initializable {
                 e.printStackTrace();
             }
         }).start();
+
+        Platform.runLater(() -> {
+            Stage stage = (Stage) mainTxtAreaAdmin.getScene().getWindow();
+            stage.setOnCloseRequest(event -> {
+                event.consume(); // Consume the event to prevent the default close operation
+
+                // Display a confirmation dialog
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Server Connection");
+                alert.setHeaderText("Are you sure you want to close the server?");
+                alert.setContentText("The connection of the chat application will be lost");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    stage.close(); // Close the window
+                }
+            });
+        });
     }
 
     @FXML
@@ -52,7 +77,7 @@ public class ServerController implements Initializable {
         String message = sendTxtAreaAdmin.getText();
 
         if (!message.isEmpty()) {
-            broadcastMessagebyAdmin("Admin", message);
+            broadcastMessagebyAdmin("System", message);
             sendTxtAreaAdmin.clear();
         }
     }

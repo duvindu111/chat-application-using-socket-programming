@@ -9,9 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -122,7 +120,7 @@ public class Client2Controller implements Initializable {
 
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println(e);
                 }
             }).start();
         } catch (IOException e) {
@@ -130,13 +128,22 @@ public class Client2Controller implements Initializable {
         }
 
         Platform.runLater(() -> {
+            // Load the background image
+            Image backgroundImage = new Image("assets/images/back.jpg");
+            // Create a BackgroundImage
+            BackgroundImage background = new BackgroundImage(backgroundImage,
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+            // Set the background to the VBox
+            mainVbox.setBackground(new Background(background));
+
             Stage stage = (Stage) mainVbox.getScene().getWindow();
             stage.setOnCloseRequest(event -> {
                 event.consume(); // Consume the event to prevent the default close operation
 
                 // Display a confirmation dialog
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Leave the Chat");
+                alert.setTitle(username);
                 alert.setHeaderText("Are you sure you want to leave the chat?");
                 alert.setContentText("Your data will be lost if you leave the chat application now");
 

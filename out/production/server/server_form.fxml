@@ -27,7 +27,10 @@
                   <Font name="Arial Rounded MT Bold" size="35.0" />
                </font>
             </Text>
-            <TextField fx:id="sendTxtAreaAdmin" layoutX="38.0" layoutY="393.0" onAction="#txtFieldServerOnAction" prefHeight="54.0" prefWidth="402.0" />
+            <TextField fx:id="sendTxtAreaAdmin" focusTraversable="false" layoutX="38.0" layoutY="393.0" onAction="#txtFieldServerOnAction" prefHeight="54.0" prefWidth="402.0" promptText="(for developer use only)">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font></TextField>
          </children>
       </AnchorPane>
    </children>
