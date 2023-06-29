@@ -112,10 +112,31 @@ public class Client2Controller implements Initializable {
                             });
 
                         } else {
-                            Label label = new Label(message);
-                            Platform.runLater(() -> {
-                                mainVbox.getChildren().add(label);
-                            });
+                            if (message.startsWith("System")) {
+                                Label label = new Label(message);
+                                Platform.runLater(() -> {
+                                    mainVbox.getChildren().add(label);
+                                });
+                            } else {
+                                Platform.runLater(() -> {
+                                    // Create an HBox for right-aligned content
+                                    HBox hbox = new HBox();
+                                    hbox.setPadding(new Insets(5));
+                                    hbox.setStyle("-fx-background-color: #3390ec; -fx-text-fill: #ffffff;-fx-background-radius: 10");
+                                    hbox.setAlignment(Pos.BASELINE_LEFT);
+                                    Label label = new Label(message);
+                                    label.setMaxWidth(300);
+                                    label.setWrapText(true);
+                                    hbox.getChildren().add(label);
+                                    hbox.setMaxWidth(Region.USE_PREF_SIZE);
+                                    hbox.setMaxHeight(Region.USE_PREF_SIZE);
+                                    hbox.setMinHeight(Region.USE_PREF_SIZE);
+                                    hbox.setMinWidth(Region.USE_PREF_SIZE);
+                                    StackPane stackPane = new StackPane(hbox);
+                                    stackPane.setAlignment(Pos.BASELINE_LEFT);
+                                    mainVbox.getChildren().add(stackPane);
+                                });
+                            }
                         }
 
                     }
@@ -207,11 +228,22 @@ public class Client2Controller implements Initializable {
         if (!message.isEmpty()) {
             try {
                 Platform.runLater(() -> {
+                    // Create an HBox for right-aligned content
                     HBox hbox = new HBox();
+                    hbox.setPadding(new Insets(5));
+                    hbox.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;-fx-background-radius: 10");
                     hbox.setAlignment(Pos.BASELINE_RIGHT);
                     Label label = new Label(message + "\n");
+                    label.setMaxWidth(300);
+                    label.setWrapText(true);
                     hbox.getChildren().add(label);
-                    mainVbox.getChildren().add(hbox);
+                    hbox.setMaxWidth(Region.USE_PREF_SIZE);
+                    hbox.setMaxHeight(Region.USE_PREF_SIZE);
+                    hbox.setMinWidth(Region.USE_PREF_SIZE);
+                    hbox.setMinHeight(Region.USE_PREF_SIZE);
+                    StackPane stackPane = new StackPane(hbox);
+                    stackPane.setAlignment(Pos.BASELINE_RIGHT);
+                    mainVbox.getChildren().add(stackPane);
                 });
                 dout.writeUTF(message);
                 dout.flush();

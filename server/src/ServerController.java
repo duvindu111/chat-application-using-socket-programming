@@ -161,8 +161,13 @@ public class ServerController implements Initializable {
 
         public void sendMessage(String sender, String message) {
             try {
-                dout.writeUTF(sender + ": " + message);
-                dout.flush();
+                if (sender.equals("System")) {
+                    dout.writeUTF(sender + ": " + message);
+                    dout.flush();
+                } else {
+                    dout.writeUTF(sender + ":\n" + message);
+                    dout.flush();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
