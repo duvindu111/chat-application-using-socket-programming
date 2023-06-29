@@ -91,6 +91,7 @@ public class Client1Controller implements Initializable  {
             dout = new DataOutputStream(clientSocket.getOutputStream());
 
             mainVbox.setPadding(new Insets(20));
+            mainVbox.setSpacing(10);
             emojiContainer.setVisible(false);
             spaneForFlowPane.setVisible(false);
             emojiContainer.setPadding(new Insets(10));
@@ -131,7 +132,7 @@ public class Client1Controller implements Initializable  {
                                 Platform.runLater(() -> {
                                     // Create an HBox for right-aligned content
                                     HBox hbox = new HBox();
-                                    hbox.setPadding(new Insets(5));
+                                    hbox.setPadding(new Insets(5,15,5,15));
                                     hbox.setStyle("-fx-background-color: #3390ec; -fx-text-fill: #ffffff;-fx-background-radius: 10");
                                     hbox.setAlignment(Pos.BASELINE_LEFT);
                                     Label label = new Label(message);
@@ -242,7 +243,7 @@ public class Client1Controller implements Initializable  {
 
                     // Create an HBox for right-aligned content
                     HBox hbox = new HBox();
-                    hbox.setPadding(new Insets(5));
+                    hbox.setPadding(new Insets(5,15,5,15));
                     hbox.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;-fx-background-radius: 10");
                     hbox.setAlignment(Pos.BASELINE_RIGHT);
                     Label label = new Label(message + "\n");
