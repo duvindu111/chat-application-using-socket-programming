@@ -1,3 +1,5 @@
+package lk.ijse.coursework_chat_application_socket_programming.controller;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -154,7 +156,7 @@ public class Client2Controller implements Initializable {
 
         Platform.runLater(() -> {
             // Load the background image
-            Image backgroundImage = new Image("assets/images/back.jpg");
+            Image backgroundImage = new Image("lk/ijse/coursework_chat_application_socket_programming/assets/images/back.jpg");
             // Create a BackgroundImage
             BackgroundImage background = new BackgroundImage(backgroundImage,
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,

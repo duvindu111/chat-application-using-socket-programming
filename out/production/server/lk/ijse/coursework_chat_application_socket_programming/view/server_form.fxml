@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="center" hgap="10" prefHeight="497.0" prefWidth="608.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ServerController">
+<GridPane alignment="center" hgap="10" prefHeight="497.0" prefWidth="608.0" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.coursework_chat_application_socket_programming.controller.ServerController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>

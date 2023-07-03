@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 public class MainServer extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("server_form.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("lk/ijse/coursework_chat_application_socket_programming/view/server_form.fxml"));
         primaryStage.setTitle("Server");
         primaryStage.setScene(new Scene(root, 608, 497));
         primaryStage.show();

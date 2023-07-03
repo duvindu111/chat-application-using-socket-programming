@@ -1,3 +1,5 @@
+package lk.ijse.coursework_chat_application_socket_programming.controller;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

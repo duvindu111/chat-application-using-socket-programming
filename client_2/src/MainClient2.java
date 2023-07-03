@@ -8,7 +8,7 @@ public class MainClient2 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("client2_form.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("lk/ijse/coursework_chat_application_socket_programming/view/client2_form.fxml"));
         primaryStage.setTitle("Client");
         primaryStage.setScene(new Scene(root, 608, 497));
         primaryStage.show();
