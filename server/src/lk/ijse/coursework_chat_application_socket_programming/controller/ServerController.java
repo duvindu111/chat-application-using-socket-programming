@@ -53,6 +53,7 @@ public class ServerController implements Initializable {
             }
         }).start();
 
+        //set an Action to the close button
         Platform.runLater(() -> {
             Stage stage = (Stage) mainTxtAreaAdmin.getScene().getWindow();
             stage.setOnCloseRequest(event -> {
@@ -86,10 +87,8 @@ public class ServerController implements Initializable {
         btnSendOnAction(actionEvent);
     }
 
-
     private void broadcastMessagebyAdmin(String sender, String message) {
         mainTxtAreaAdmin.appendText(sender + ": " + message + "\n");
-
         for (ClientHandler client : clients) {
             client.sendMessage(sender, message);
         }
@@ -97,7 +96,6 @@ public class ServerController implements Initializable {
 
     private void broadcastMessagebyClients(String sender, String message, Socket socket) {
         mainTxtAreaAdmin.appendText(sender + ": " + message + "\n");
-
         for (ClientHandler client : clients) {
             if (client.clientSocket != socket) {
                 client.sendMessage(sender, message);
@@ -107,7 +105,6 @@ public class ServerController implements Initializable {
 
     private void broadcastImagesbyClients(String username, String path, Socket socket) {
         mainTxtAreaAdmin.appendText(username + " sent an image\n");
-
         for (ClientHandler client : clients) {
             if (client.clientSocket != socket) {
                 client.sendImage(username, path);
@@ -115,7 +112,7 @@ public class ServerController implements Initializable {
         }
     }
 
-    //start of private class to handle each client
+    //start of ClientHandler class to handle each client
     private class ClientHandler extends Thread {
         private Socket clientSocket;
         private DataInputStream din;
@@ -183,8 +180,6 @@ public class ServerController implements Initializable {
                 e.printStackTrace();
             }
         }
-
-
     }
     //end of the ClientHandler class
 }

@@ -86,16 +86,16 @@ public class Client2Controller implements Initializable {
             din = new DataInputStream(clientSocket.getInputStream());
             dout = new DataOutputStream(clientSocket.getOutputStream());
 
-            mainVbox.setPadding(new Insets(20));
+            mainVbox.setPadding(new Insets(20));        //designing interface of vBox
             mainVbox.setSpacing(10);
-            emojiContainer.setVisible(false);
-            spaneForFlowPane.setVisible(false);
-            emojiCategoryPane.setVisible(false);
-            emojiContainer.setPadding(new Insets(10));
+            emojiContainer.setPadding(new Insets(10));      //designing interface of emojiContainer flowpane
             emojiContainer.setHgap(20);
             emojiContainer.setVgap(20);
-            emojiCategoryPane.setPadding(new Insets(0, 10, 0, 10));
+            emojiCategoryPane.setPadding(new Insets(0, 10, 0, 10));     //designing interface of emojiCategoryPane flowpane
             emojiCategoryPane.setHgap(20);
+            emojiContainer.setVisible(false);       //hiding the interfaces of not needed items
+            spaneForFlowPane.setVisible(false);
+            emojiCategoryPane.setVisible(false);
             displaySmileyEmojis();
             dispayEmojiCategories();
 
@@ -104,7 +104,7 @@ public class Client2Controller implements Initializable {
                     while (true) {
                         String message = din.readUTF();
 
-                        if (message.startsWith("image")) {
+                        if (message.startsWith("image")) {        //handling images
                             String sender = din.readUTF();
                             Label senderLabel = new Label(sender + ": ");
                             String path = din.readUTF();
@@ -113,7 +113,8 @@ public class Client2Controller implements Initializable {
                             ImageView imageView = new ImageView(new Image("file:" + path));
                             imageView.setFitWidth(192);
                             imageView.setPreserveRatio(true);
-                            //////////////
+
+                            //set an action to the image so that when you click on it, it opens in a bigger window
                             imageView.setOnMouseClicked(event -> {
                                 // Open the image when clicked
                                 try {
@@ -123,23 +124,23 @@ public class Client2Controller implements Initializable {
                                     e.printStackTrace();
                                 }
                             });
-                            /////////////////////
+
                             Platform.runLater(() -> {
                                 mainVbox.getChildren().add(senderLabel);
                             });
                             Platform.runLater(() -> {
                                 mainVbox.getChildren().add(imageView);
                             });
-
-                        } else {
-                            if (message.startsWith("System")) {
+                        } else {          //handling normal messages
+                            if (message.startsWith("System")) {     //handling normal messages by Admin/System/Server
                                 Label label = new Label(message);
                                 Platform.runLater(() -> {
                                     mainVbox.getChildren().add(label);
                                 });
-                            } else {
+                            } else {          //handling normal messages
                                 Platform.runLater(() -> {
-                                    // Create an HBox for right-aligned content
+                                    /*adding the message as a label to the vBox.the label is added to a hBox before adding it to the vBox.
+                                     * added a colour to the hBox.managed length of the messages.*/
                                     HBox hbox = new HBox();
                                     hbox.setPadding(new Insets(5, 15, 5, 15));
                                     hbox.setStyle("-fx-background-color: #3390ec; -fx-text-fill: #ffffff;-fx-background-radius: 10");
@@ -159,7 +160,6 @@ public class Client2Controller implements Initializable {
                                 });
                             }
                         }
-
                     }
                 } catch (IOException e) {
                     System.out.println(e);
@@ -169,22 +169,20 @@ public class Client2Controller implements Initializable {
             System.out.println(e);
         }
 
+        //setting a background image to the vBox
         Platform.runLater(() -> {
             // Load the background image
             Image backgroundImage = new Image("lk/ijse/coursework_chat_application_socket_programming/assets/images/back.jpg");
-            // Create a BackgroundImage
-            BackgroundImage background = new BackgroundImage(backgroundImage,
+            BackgroundImage background = new BackgroundImage(backgroundImage,       // Create a BackgroundImage
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT,
                     BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-            // Set the background to the VBox
-            mainVbox.setBackground(new Background(background));
+            mainVbox.setBackground(new Background(background));     // Set the background to the VBox
 
             Stage stage = (Stage) mainVbox.getScene().getWindow();
             stage.setOnCloseRequest(event -> {
-                event.consume(); // Consume the event to prevent the default close operation
+                event.consume();
 
-                // Display a confirmation dialog
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);      // Display confirmation dialog
                 alert.setTitle(username);
                 alert.setHeaderText("Are you sure you want to leave the chat?");
                 alert.setContentText("Your data will be lost if you leave the chat application now");
@@ -197,7 +195,7 @@ public class Client2Controller implements Initializable {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    stage.close(); // Close the window
+                    stage.close();
                 }
             });
         });
@@ -220,7 +218,6 @@ public class Client2Controller implements Initializable {
 
         for (int i = 0; i < children.size(); i++) {
             Node child = children.get(i);
-            // Process the child element here
             child.setStyle("-fx-text-fill: black; -fx-font-size: 30");
         }
     }
@@ -258,7 +255,7 @@ public class Client2Controller implements Initializable {
 
     private void displayAnimalEmojis() {
         emojiContainer.getChildren().clear();
-        // Create a button for each emoji
+
         String[] emojis = {
                 "\uD83D\uDC2C", "\uD83D\uDC2D", "\uD83D\uDC2E", "\uD83D\uDC2F", "\uD83D\uDC30",
                 "\uD83D\uDC31", "\uD83D\uDC32", "\uD83D\uDC33", "\uD83D\uDC34", "\uD83D\uDC35",
@@ -295,7 +292,7 @@ public class Client2Controller implements Initializable {
 
     private void displayFoodEmojis() {
         emojiContainer.getChildren().clear();
-        // Create a button for each emoji
+
         String[] emojis = {
                 "\uD83C\uDF30", "\uD83C\uDF31", "\uD83C\uDF32", "\uD83C\uDF33", "\uD83C\uDF34",
                 "\uD83C\uDF35", "\uD83C\uDF36", "\uD83C\uDF37", "\uD83C\uDF38", "\uD83C\uDF39",
@@ -332,7 +329,7 @@ public class Client2Controller implements Initializable {
 
     private void displaySmileyEmojis() {
         emojiContainer.getChildren().clear();
-        // Create a button for each emoji
+
         String[] emojis = {
                 "\u263A", "\uD83D\uDE00", "\uD83D\uDE01", "\uD83D\uDE02", "\uD83D\uDE03",
                 "\uD83D\uDE04", "\uD83D\uDE05", "\uD83D\uDE06", "\uD83D\uDE07", "\uD83D\uDE08",
@@ -373,8 +370,7 @@ public class Client2Controller implements Initializable {
 
         if (!message.isEmpty()) {
             try {
-                Platform.runLater(() -> {
-                    // Create an HBox for right-aligned content
+                Platform.runLater(() -> {        //displaying the message in the own clients display.right aligned.length managed
                     HBox hbox = new HBox();
                     hbox.setPadding(new Insets(5, 15, 5, 15));
                     hbox.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;-fx-background-radius: 10");
@@ -391,14 +387,14 @@ public class Client2Controller implements Initializable {
                     stackPane.setAlignment(Pos.BASELINE_RIGHT);
                     mainVbox.getChildren().add(stackPane);
                 });
-                dout.writeUTF(message);
+                dout.writeUTF(message);     //sending the msg to others
                 dout.flush();
                 sendTxtAreaClient.clear();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        emojiContainer.setVisible(false);
+        emojiContainer.setVisible(false);       //managing the interface
         spaneForFlowPane.setVisible(false);
         emojiCategoryPane.setVisible(false);
     }
@@ -412,7 +408,6 @@ public class Client2Controller implements Initializable {
     }
 
     String username;
-
     public void btnJoinOnAction(ActionEvent actionEvent) throws IOException {
         username = txtUsername.getText();
 
@@ -426,7 +421,6 @@ public class Client2Controller implements Initializable {
     }
 
     String imagePath;
-
     public void icnCameraOnMouseClicked(MouseEvent mouseEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image File");
@@ -440,7 +434,7 @@ public class Client2Controller implements Initializable {
         if (selectedFile != null) {
             imagePath = selectedFile.getAbsolutePath();
             System.out.println("Selected image path: " + imagePath);
-            dout.writeUTF("image");
+            dout.writeUTF("image");       //sending the image to other clients
             dout.writeUTF(username);
             dout.writeUTF(imagePath);
             dout.flush();
@@ -448,7 +442,16 @@ public class Client2Controller implements Initializable {
             ImageView imageView = new ImageView(new Image("file:" + imagePath));
             imageView.setFitWidth(192);
             imageView.setPreserveRatio(true);
-            Platform.runLater(() -> {
+            //set an action to the image so that when you click on it, it opens in a bigger window
+            imageView.setOnMouseClicked(event -> {
+                try {
+                    File file = new File(imagePath);
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            Platform.runLater(() -> {       //display image in the own clients display
                 HBox hbox = new HBox();
                 hbox.setAlignment(Pos.BASELINE_RIGHT);
                 hbox.getChildren().add(imageView);
