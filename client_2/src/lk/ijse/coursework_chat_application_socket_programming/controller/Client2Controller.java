@@ -9,6 +9,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -107,8 +113,17 @@ public class Client2Controller implements Initializable {
                             ImageView imageView = new ImageView(new Image("file:" + path));
                             imageView.setFitWidth(192);
                             imageView.setPreserveRatio(true);
-//                            imageView.setFitWidth(256);
-//                            imageView.setFitHeight(256);
+                            //////////////
+                            imageView.setOnMouseClicked(event -> {
+                                // Open the image when clicked
+                                try {
+                                    File file = new File(path);
+                                    Desktop.getDesktop().open(file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            /////////////////////
                             Platform.runLater(() -> {
                                 mainVbox.getChildren().add(senderLabel);
                             });
@@ -159,7 +174,7 @@ public class Client2Controller implements Initializable {
             Image backgroundImage = new Image("lk/ijse/coursework_chat_application_socket_programming/assets/images/back.jpg");
             // Create a BackgroundImage
             BackgroundImage background = new BackgroundImage(backgroundImage,
-                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT,
                     BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
             // Set the background to the VBox
             mainVbox.setBackground(new Background(background));
