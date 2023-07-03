@@ -6,8 +6,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.DataInputStream;
@@ -39,7 +37,7 @@ public class ServerController implements Initializable {
 
         new Thread(() -> {
             try {
-                serverSocket = new ServerSocket(3002);
+                serverSocket = new ServerSocket(3003);
 
                 while (true) {
                     Socket clientSocket = serverSocket.accept();
@@ -105,7 +103,7 @@ public class ServerController implements Initializable {
         }
     }
 
-    private void broadcastImagesbyClients(String username, String path,Socket socket) {
+    private void broadcastImagesbyClients(String username, String path, Socket socket) {
         mainTxtAreaAdmin.appendText(username + " sent an image\n");
 
         for (ClientHandler client : clients) {
@@ -115,7 +113,7 @@ public class ServerController implements Initializable {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////
+    //start of private class to handle each client
     private class ClientHandler extends Thread {
         private Socket clientSocket;
         private DataInputStream din;
@@ -186,5 +184,5 @@ public class ServerController implements Initializable {
 
 
     }
-    ////////////////////////////////////////////////////////////////////////
+    //end of the ClientHandler class
 }

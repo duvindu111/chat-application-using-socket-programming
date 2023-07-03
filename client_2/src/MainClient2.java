@@ -4,10 +4,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class MainClient2 extends Application{
+public class MainClient2 extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("client2_form.fxml"));
         primaryStage.setTitle("Client");
         primaryStage.setScene(new Scene(root, 608, 497));

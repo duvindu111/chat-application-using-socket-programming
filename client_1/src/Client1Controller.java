@@ -1,8 +1,6 @@
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -15,31 +13,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.vdurmont.emoji.EmojiManager;
-import com.vdurmont.emoji.EmojiParser;
-import com.vdurmont.emoji.Emoji;
-import javafx.stage.Window;
-import javafx.stage.WindowEvent;
-import org.json.JSONArray;
 
-import javax.swing.*;
-
-
-public class Client1Controller implements Initializable  {
+public class Client1Controller implements Initializable {
 
     @FXML
     private Button btnJoin;
@@ -78,9 +66,6 @@ public class Client1Controller implements Initializable  {
     private ScrollPane spaneForFlowPane;
 
     @FXML
-    private ScrollPane sPaneVbox;
-
-    @FXML
     private FlowPane emojiCategoryPane;
 
     private Socket clientSocket;
@@ -90,7 +75,7 @@ public class Client1Controller implements Initializable  {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            clientSocket = new Socket("localhost", 3002);
+            clientSocket = new Socket("localhost", 3003);
             //clientSocket = new Socket("192.168.180.199", 5003);
             din = new DataInputStream(clientSocket.getInputStream());
             dout = new DataOutputStream(clientSocket.getOutputStream());
@@ -103,7 +88,7 @@ public class Client1Controller implements Initializable  {
             emojiContainer.setPadding(new Insets(10));
             emojiContainer.setHgap(20);
             emojiContainer.setVgap(20);
-            emojiCategoryPane.setPadding(new Insets(0,10,0,10));
+            emojiCategoryPane.setPadding(new Insets(0, 10, 0, 10));
             emojiCategoryPane.setHgap(20);
             displaySmileyEmojis();
             dispayEmojiCategories();
@@ -141,7 +126,7 @@ public class Client1Controller implements Initializable  {
                                 Platform.runLater(() -> {
                                     // Create an HBox for right-aligned content
                                     HBox hbox = new HBox();
-                                    hbox.setPadding(new Insets(5,15,5,15));
+                                    hbox.setPadding(new Insets(5, 15, 5, 15));
                                     hbox.setStyle("-fx-background-color: #3390ec; -fx-text-fill: #ffffff;-fx-background-radius: 10");
                                     hbox.setAlignment(Pos.BASELINE_LEFT);
                                     Label label = new Label(message);
@@ -226,19 +211,19 @@ public class Client1Controller implements Initializable  {
     }
 
     private void dispayEmojiCategories() {
-        String[] emojiCategories = { "\uD83D\uDE06","\uD83D\uDC2C","\uD83C\uDF30"};
+        String[] emojiCategories = {"\uD83D\uDE06", "\uD83D\uDC2C", "\uD83C\uDF30"};
 
         for (String emoji : emojiCategories) {
             Label emojiLabel = new Label();
             emojiLabel.setText(emoji);
             emojiLabel.setStyle("-fx-font-size: 30");
-            if (emoji.equals( "\uD83D\uDE06")) {
+            if (emoji.equals("\uD83D\uDE06")) {
                 emojiLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 5, 0, 0, 2)");
             }
             emojiLabel.setOnMouseClicked(event -> {
                 String unicode = emoji;
 
-                if (unicode.equals( "\uD83D\uDE06")) {
+                if (unicode.equals("\uD83D\uDE06")) {
                     displaySmileyEmojis();
                     changeColorOfEmojiCategories();
                     emojiLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 5, 0, 0, 2)");
@@ -377,7 +362,7 @@ public class Client1Controller implements Initializable  {
 
                     // Create an HBox for right-aligned content
                     HBox hbox = new HBox();
-                    hbox.setPadding(new Insets(5,15,5,15));
+                    hbox.setPadding(new Insets(5, 15, 5, 15));
                     hbox.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black;-fx-background-radius: 10");
                     hbox.setAlignment(Pos.BASELINE_RIGHT);
                     Label label = new Label(message + "\n");

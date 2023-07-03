@@ -24,22 +24,6 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Group fx:id="grpEnterName">
-         <children>
-            <Label alignment="CENTER" layoutX="1.0" layoutY="47.0" prefHeight="54.0" prefWidth="559.0" text="to JOIN the chat" textAlignment="CENTER">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="18.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtUsername" layoutX="82.0" layoutY="107.0" onAction="#txtUsernameOnAction" prefHeight="42.0" prefWidth="403.0" promptText="Username" />
-            <Label alignment="CENTER" prefHeight="54.0" prefWidth="559.0" text="Please Enter Your Username" textAlignment="CENTER">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="29.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnJoin" layoutX="226.0" layoutY="184.0" mnemonicParsing="false" onAction="#btnJoinOnAction" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #24A0ED; -fx-background-radius: 30;" text="Join" textFill="WHITE" />
-         </children>
-      </Group>
       <Group fx:id="grpMessageArea" visible="false">
          <children>
             <Button fx:id="btnSendClient" focusTraversable="false" layoutX="445.0" layoutY="377.1201171875" mnemonicParsing="false" onAction="#btnSendOnAction" prefHeight="54.0" prefWidth="67.0" text="Send" />
@@ -73,7 +57,29 @@
                   <FlowPane fx:id="emojiContainer" prefHeight="237.0" prefWidth="478.0" style="-fx-background-color: #F0F2F5;" />
                </content>
             </ScrollPane>
-            <FlowPane fx:id="emojiCategoryPane" layoutX="28.0" layoutY="55.0" prefHeight="45.0" prefWidth="492.0" style="-fx-background-color: #fae78c; -fx-background-radius: 10; -fx-border-color: grey; -fx-border-radius: 10; -fx-border-width: 3;" />
+            <FlowPane fx:id="emojiCategoryPane" layoutX="28.0" layoutY="55.0" prefHeight="45.0" prefWidth="492.0" style="-fx-background-color: #F0F2F5; -fx-background-radius: 10; -fx-border-color: grey; -fx-border-radius: 10; -fx-border-width: 3;" />
+         </children>
+      </Group>
+      <Group fx:id="grpEnterName">
+         <children>
+            <ImageView fitHeight="250.0" fitWidth="561.0" layoutX="165.0" layoutY="-153.0" pickOnBounds="true" preserveRatio="true" x="-10.0" y="-150.0">
+               <image>
+                  <Image url="@assets/images/play.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="1.0" layoutY="-53.0" prefHeight="54.0" prefWidth="559.0" text="to JOIN the chat" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtUsername" layoutX="79.0" layoutY="7.0" onAction="#txtUsernameOnAction" prefHeight="42.0" prefWidth="403.0" promptText="Username" />
+            <Label alignment="CENTER" layoutX="1.0" layoutY="-98.0" prefHeight="54.0" prefWidth="559.0" text="Please Enter Your Username" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="29.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnJoin" layoutX="226.0" layoutY="77.0" mnemonicParsing="false" onAction="#btnJoinOnAction" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #24A0ED; -fx-background-radius: 30;" text="Join" textFill="WHITE" />
+            <Label layoutX="252.0" layoutY="131.0" />
          </children>
       </Group>
    </children>

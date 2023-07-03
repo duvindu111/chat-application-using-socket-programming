@@ -50,28 +50,33 @@
                         <VBox fx:id="mainVbox" prefHeight="304.0" prefWidth="490.0" style="-fx-background-color: #F0EBE3;" />
                      </content>
                   </ScrollPane>
-                  <ScrollPane fx:id="spaneForFlowPane" layoutX="31.0" layoutY="104.0" prefHeight="256.0" prefWidth="489.0" style="-fx-background-radius: 20; -fx-background-color: #F0EBE3; -fx-border-color: black;">
+                  <ScrollPane fx:id="spaneForFlowPane" layoutX="31.0" layoutY="104.0" prefHeight="256.0" prefWidth="489.0" style="-fx-background-radius: 20; -fx-background-color: #F0EBE3; -fx-border-color: grey;">
                      <content>
                         <FlowPane fx:id="emojiContainer" prefHeight="237.0" prefWidth="478.0" style="-fx-background-color: #F0F2F5;" />
                      </content>
                   </ScrollPane>
-                  <FlowPane fx:id="emojiCategoryPane" layoutX="29.0" layoutY="57.0" prefHeight="45.0" prefWidth="492.0" style="-fx-background-color: #fae78c; -fx-background-radius: 10; -fx-border-color: grey; -fx-border-radius: 10; -fx-border-width: 3;" />
+                  <FlowPane fx:id="emojiCategoryPane" layoutX="29.0" layoutY="57.0" prefHeight="45.0" prefWidth="492.0" style="-fx-background-color: #F0F2F5; -fx-background-radius: 10; -fx-border-color: grey; -fx-border-radius: 10; -fx-border-width: 3;" />
                </children>
             </Group>
             <Group fx:id="grpEnterName" layoutY="107.0">
                <children>
-                  <Label alignment="CENTER" layoutX="1.0" layoutY="47.0" prefHeight="54.0" prefWidth="559.0" text="to JOIN the chat" textAlignment="CENTER">
+                  <Label alignment="CENTER" layoutX="1.0" layoutY="147.0" prefHeight="54.0" prefWidth="559.0" text="to JOIN the chat" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtUsername" layoutX="82.0" layoutY="107.0" onAction="#txtUsernameOnAction" prefHeight="42.0" prefWidth="403.0" promptText="Username" />
-                  <Label alignment="CENTER" prefHeight="54.0" prefWidth="559.0" text="Please Enter Your Username" textAlignment="CENTER">
+                  <TextField fx:id="txtUsername" layoutX="82.0" layoutY="207.0" onAction="#txtUsernameOnAction" prefHeight="42.0" prefWidth="403.0" promptText="Username" />
+                  <Label alignment="CENTER" layoutY="100.0" prefHeight="54.0" prefWidth="559.0" text="Please Enter Your Username" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="29.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnJoin" layoutX="226.0" layoutY="184.0" mnemonicParsing="false" onAction="#btnJoinOnAction" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #24A0ED; -fx-background-radius: 30;" text="Join" textFill="WHITE" />
+                  <Button fx:id="btnJoin" layoutX="226.0" layoutY="284.0" mnemonicParsing="false" onAction="#btnJoinOnAction" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #24A0ED; -fx-background-radius: 30;" text="Join" textFill="WHITE" />
+                  <ImageView fitHeight="250.0" fitWidth="250.0" layoutX="155.0" layoutY="-117.0" pickOnBounds="true" preserveRatio="true" y="10.0">
+                     <image>
+                        <Image url="@assets/images/play.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Group>
          </children>
